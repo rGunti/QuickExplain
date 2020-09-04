@@ -1,0 +1,3 @@
+[submodule "how-to-git"]
+	path = how-to-git
+	url = git@github.com:rGunti/HowToGit.git
