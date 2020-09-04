@@ -288,3 +288,19 @@ _Limitations:_
 - The server decrypts its traffic using its _Private Key_
 - The client does the same with its own key-pair
 - The server has to present a certificate which the client trusts
+
+---
+
+<!-- _class: invert -->
+
+# Any questions?
+![bg right contain](./images/bg/question.png)
+
+---
+
+<!-- _class: invert -->
+
+# Thank you for your attention!
+
+Raphael Guntersweiler
+raphael@guntersweiler.net
