@@ -78,7 +78,7 @@ _We currently live in a time where EVs are changing about as fast as smartphones
 
 ---
 
-# Owning an electric car
+# Owning an EV
 ## My situation
 - no garage
 - no carport
@@ -93,7 +93,7 @@ But:
 
 ---
 
-# Driving an electric car
+# Driving an EV
 - drives like an _Automatic_ except:
     - no gear changes (because _no gears_)
     - 🤫 silent*
