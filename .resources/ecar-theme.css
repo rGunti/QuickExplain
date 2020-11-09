@@ -12,3 +12,6 @@ section.full-screen-image > p {
     margin-left: 40%;
     padding: 10px;
 }
+section.full-screen-image > p a {
+    color: white;
+}
