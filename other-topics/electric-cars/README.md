@@ -47,6 +47,7 @@ Some of the points might not be applicable anymore or in other countries.
 Tesla's are great, but expensive and too easy. A.k.a.: No Tesla in this presentation!
 
 ## ⚠️ **Opinions ahead!** (_duh!_)
+_Opinions expressed are solely my own and do not express the views or opinions of my employer._
 
 ---
 
