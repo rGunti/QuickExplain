@@ -51,6 +51,49 @@ _Opinions expressed are solely my own and do not express the views or opinions o
 
 ---
 
+<!-- _class: invert -->
+![bg brightness:0.75 blur](./images/zoe-plugged.jpeg)
+
+# Backstory
+## How did I get here?
+
+---
+
+<!-- _class: invert full-screen-image -->
+![bg contain](./images/seat.jpeg)
+
+**SEAT Ibiza 1.4l (2006)**
+_(not electric)_
+
+---
+
+<!-- _class: invert full-screen-image -->
+![bg contain](./images/zoe_mk1.JPG)
+
+**Renault Zoé ("Phase I", 2013-2019)**
+65 kW / 87 bhp / 21 kWh net
+~150 km Range
+
+---
+
+<!-- _class: invert full-screen-image -->
+![bg contain](./images/ioniq.png)
+
+**Hyundai Ioniq**
+_the "most efficient" EV_
+available as **BEV**, **PHEV**, **mHEV**
+
+---
+
+<!-- _class: invert full-screen-image -->
+![bg contain](./images/taycan.jpeg)
+
+**Porsche Taycan (2020)**
+390+ kW / 530+ bhp / 80+ kWh net
+~335+ km WLTP / ø 26.2 - 17 kWh/100km
+
+---
+
 <!-- _class: full-screen-image -->
 
 ![bg](./images/zoe-plugged.jpeg)
