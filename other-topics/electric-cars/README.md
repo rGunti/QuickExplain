@@ -34,6 +34,7 @@ Raphael Guntersweiler
   - **PHEV** - Plug-in Hybrid EV (with ICE)
   - **FCEV** - Fuel Cell powered EV (i.e. Hydrogen cars)
   - **sHEV** / **mHEV** - strong / mild Hybrid EV ("alabi EV", cannot be plugged in, battery range very limited; combined with ICE)
+- **WLTP**: _Worldwide harmonized Light vehicles Test Procedure_
 
 Helpful info: https://www.opel.de/einfach-elektrisch/uebersicht/bev-phev-wofuer-stehen-die-abkuerzungen.html
 
