@@ -304,3 +304,22 @@ _Limitations:_
 
 Raphael Guntersweiler
 raphael@guntersweiler.net
+
+---
+
+# Appendix: OpenSSL Command Line
+This slide will show you some samples for creating Certificate Signing Requests, useful if you need to request a certificate at your workplace:
+
+_Generate a new private key to a file called `mysite.key`_
+```
+$ openssl genrsa -out mysite.key 2048
+```
+
+_Creates a CSR using `mysite.key` and saving it to `mysite.csr`_
+```
+$ openssl req -new -key mysite.key -out mysite.csr -sha512
+```
+
+You will usually need to send the CSR file to the signing Certificate Authority to get your certificate.
+
+_You have access to this tool in most Linux command lines and also in Git Bash._
