@@ -303,6 +303,21 @@ modern Petrol or Diesel cars can finish this route with ~1 tank of fuel*
 
 ---
 
+## Comparison in fuel economy
+
+| Car         | l / 100km | kWh / 100km |
+|:------------|----------:|------------:|
+| SEAT Ibiza  |       7.0 |        58.8 |
+| Renault Zoé |     _2.4_ |        20.0 |
+
+Zoé has a **~2.9x** greater fuel economy
+
+_This calculation uses the Heat of combustion of Super petrol (~8.4 kWh/l) to calculate the equivalent fuel consumption._
+
+_Source: https://rechneronline.de/elektroauto/_
+
+---
+
 ## The differences: ⛽️ vs. ⚡️
 - longer travel time
 - lower speed
