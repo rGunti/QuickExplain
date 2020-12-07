@@ -1,0 +1,17 @@
+/* @theme ecar-theme */
+
+@import 'default';
+
+section.full-screen-image {
+    color: white;
+    text-align: right;
+    justify-content: flex-end;
+}
+section.full-screen-image > p {
+    background-color: #00000066;
+    margin-left: 40%;
+    padding: 10px;
+}
+section.full-screen-image > p a {
+    color: white;
+}
