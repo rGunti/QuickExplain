@@ -62,7 +62,12 @@ man <command>
 ```
 raphael@debian-box:~$ ls
 another-textfile.txt  file.txt
+```
 
+---
+
+## **First Login**: What is in my directory?
+```
 raphael@debian-box:~$ ls -l
 total 5
 -rw-r--r-- 1 raphael raphael  0 Dec  7 02:20 another-textfile.txt
@@ -259,3 +264,8 @@ vi <filename>
 - `/tmp` Temporary files
 - `/usr` Secondary tree for files (usually also contains `bin`, `sbin`, etc.)
 - `/var` Variable data (i.e. log files)
+
+---
+
+## **Linux File System**: `~` ("_tilde_")
+The `~` directory is a shortcut to the current users home directory, usually `/home/<username>` (or `/root`).
