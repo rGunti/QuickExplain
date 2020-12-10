@@ -223,7 +223,113 @@ Get:2 http://deb.debian.org/debian stretch/main amd64 base-files amd64 9.9+deb9u
 ## Root, `sudo` and Permissions
 In a bare-bones Linux-based OS, only the `root` user is allowed to modify the system. `root` (_UID 1_) is a default user provided by all Linux OS's with the permission to do anything on the system. The permissions of this user can never be restricted, it will always have full control over the system.
 
-In order for users to do maintenance work, they would need to be provided with `root`'s password, but sharing passwords is a high security risk. 
+### Privilege Escalation: `sudo`
+In order for users to do maintenance work, they would need to be provided with `root`'s password, but sharing passwords is a high security risk. For this reason, packages like `sudo` exists which come preinstalled in most distros. `sudo` elevates a user to root for one command, letting them execute programs with higher privileges. Usually, `sudo` requires the executing user to be in the `sudo` group, however this behaviour can be configured.
+
+### File System Permissions
+On Linux file system, file access is controlled by three 3-digit numbers, which designate the permissions a user has to interact with the file. These are formed in the following way:
+
+```
+4 Read
+2 Write
+1 Execute
+```
+
+The permission is calculated by adding the operations together.
+
+```
+   4 +     2 = 6
+Read + Write
+```
+
+A file is designated the following groups to evaluate these permissions, where each group has their own set of allowed operations:
+
+- Owner User
+- Owner Group
+- Everyone Else
+
+If we request a file listing, we can see these privileges:
+
+```
+raphael@debian-box:~$ ls -l my-document.txt
+total 5
+-rw-r--r-- 1 raphael raphael 12 Dec  7 02:22 my-document.txt
+ 
+ ^^^^^^^^^   ^^^^^^^ ^^^^^^^
+     |          |       |
+     |          |       +----- Owner Group
+     |          +------------- Owner User
+     +------------------------ File permissions
+```
+
+In this example the owner user `raphael` has the permission to read from and write to the displayed text document (`rw-`). Everyone who is a member of the group `raphael` is allowed to read the file but not write to it (`r--`) and everyone else on the system is also allowed to read the file (`r--`).
+
+Translated to the numeric / byte representation, this file is assigned the permission `644`.
+
+A user with the required permissions, including the owner, can change this by running the following command:
+
+```
+$ chmod <perm> <file>
+```
+
+As an example: If the user wants to change the permission to deny everyone else the right to access the file, one can run this command:
+
+```
+$ chmod 600 my-document.txt
+```
+
+This effectively makes the file inaccessible for everyone except the owner.
+
+File permission can also be applied to directories which can make such a directory read-only or even inaccessible for other users. The `chmod` command provides an `-R` flag which changes permissions recusively. If applied to a directory, the permissions of that directory as well as all files and directories in that directory will be changed.
+
+The "Execute" permission is a special permission required to run binary files. If a file is assigned the Execute permission, it can usually be run directly whereas otherwise it is not possible and mostly rejected.
+
+```
+raphael@debian-box:~$ cat test.sh
+echo "Hello World"
+
+raphael@debian-box:~$ ./test.sh
+-bash: ./test.sh: Permission denied
+
+raphael@debian-box:~$ chmod +x test.sh
+raphael@debian-box:~$ ./test.sh
+Hello World
+```
+
+In this example, we have a bash script that prints out "Hello World". If one was to simply run it, bash will reject it. If we add the execute permission and run it again, it will work as expected.
+This works not only on bash scripts but on every executable, however in the case of Bash scripts, they can still be executed by running them though the bash command like this:
+
+```
+raphael@debian-box:~$ ./test.sh
+-bash: ./test.sh: Permission denied
+
+raphael@debian-box:~$ bash test.sh
+Hello World
+```
+
+### File Ownership
+As already described before, a file has three access right levels: Owner User, Owner Group and everyone else. This can be changed using the `chown` command:
+
+```
+$ chown [<user>][:<group>] <filename>
+```
+
+```
+root@debian-box:/home/raphael# ls -l
+total 10
+drwxr-xr-x 2 raphael raphael  3 Dec  7 02:35 Documents
+-rw-r--r-- 1 raphael raphael 12 Dec  7 02:22 another-textfile.txt
+-rw-r--r-- 1 raphael raphael 19 Dec 10 23:02 test.sh
+
+root@debian-box:/home/raphael# chown root test.sh
+
+root@debian-box:/home/raphael# ls -l test.sh
+-rw-r--r-- 1 root raphael 19 Dec 10 23:02 test.sh
+```
+
+In the example above, the file test.sh has been transfered from the user `raphael` to `root`.
+
+Note that `chown` also has the same `-R` flag as `chmod`.
 
 ---
 
