@@ -128,7 +128,7 @@ _This can be useful for creating dummy files or overwritting hard disks._
 ~~`/dev/random`~~ and `/dev/urandom` are basically random number generators provided as device files. They can be read from in a similar way as `/dev/zero` but it will generate random bytes instead of NULL bytes. When writing to `/dev/urandom`, one can influence the output of it.
 
 ## Package Managers
-Most Linux distributions come with a so called "package manager". A package is a type of archive that contains a program, library, source code or documentation. A package manager is a program that keeps track of installed packages, checks for updates and dependencies.
+Most Linux distributions come with a so called "[package manager][2]". A package is a type of archive that contains a program, library, source code or documentation. A package manager is a program that keeps track of installed packages, checks for updates and dependencies. _You might think of it as an "App Store" for your computer._
 
 It is regarded best practice to install programs using the package manager as much as possible. This has the advanges of reducing duplicates in program files due to required libraries, makes updates easier to install and usually reduces maintenance cost.
 
@@ -199,7 +199,7 @@ Reading state information... Done
 If there are updates available, one can run `apt upgrade` to install all updates or `apt upgrade <package>` to just update a package.
 
 ```
-raphael@L000W1552:~$ sudo apt upgrade
+raphael@debian-box:~$ sudo apt upgrade
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -220,6 +220,12 @@ Get:2 http://deb.debian.org/debian stretch/main amd64 base-files amd64 9.9+deb9u
 
 **Removing a program** is done by running `apt remove <package>` or `apt purge <package>`.
 
+## Root, `sudo` and Permissions
+In a bare-bones Linux-based OS, only the `root` user is allowed to modify the system. `root` (_UID 1_) is a default user provided by all Linux OS's with the permission to do anything on the system. The permissions of this user can never be restricted, it will always have full control over the system.
+
+In order for users to do maintenance work, they would need to be provided with `root`'s password, but sharing passwords is a high security risk. 
+
 ---
 
 [1]: https://en.wikipedia.org/wiki/Linux
+[2]: https://en.wikipedia.org/wiki/Package_manager
