@@ -37,11 +37,11 @@ We're using the _Debian / Ubuntu_ distribution (mostly due to personal preferenc
 ```
 raphael@debian-box:~$ _
 
-^^^^^^^ ^^^^^^^^^^ ^
-    |        |     |
-    |        |     +-- Your current location (i.e. "~")
-    |        +-------- Your machines name
-    +----------------- Your username
+|_____| |________| |
+   |         |     |
+   |         |     +-- Your current location (i.e. "~")
+   |         +-------- Your machines name
+   +------------------ Your username
 ```
 
 ---
@@ -73,14 +73,15 @@ total 5
 -rw-r--r-- 1 raphael raphael  0 Dec  7 02:20 another-textfile.txt
 -rw-r--r-- 1 raphael raphael 20 Dec  7 02:19 file.txt
 
-^^^^^^^^^^   ^^^^^^^ ^^^^^^^ ^^ ^^^^^^^^^^^^ ^
-    |           |       |     |       |      |
-    |           |       |     |       |      +- File name
-    |           |       |     |       +-------- Last modified
-    |           |       |     +---------------- File size (bytes)
-    |           |       +---------------------- Owner group
-    |           +------------------------------ Owner
-    +------------------------------------------ File permissions
+||_______|   |_____| |_____|  | |__________| |
+|   |           |       |     |       |      |
+|   |           |       |     |       |      +- File name
+|   |           |       |     |       +-------- Last modified
+|   |           |       |     +---------------- File size (bytes)
+|   |           |       +---------------------- Owner group
+|   |           +------------------------------ Owner
+|   +------------------------------------------ File permissions
++---------------------------------------------- File type
 ```
 
 ---
@@ -204,7 +205,6 @@ file.txt
 **Please never run this or everything on or attached to your computer is being deleted.**
 ```
 rm -rf /
-^^  ^^ ^
  |  || |
  |  || +- The root directory of your system (see FS explanation)
  |  |+--- Force everything, do not ask for confirmation
@@ -269,3 +269,213 @@ vi <filename>
 
 ## **Linux File System**: `~` ("_tilde_")
 The `~` directory is a shortcut to the current users home directory, usually `/home/<username>` (or `/root`).
+
+---
+
+<!-- _class: invert -->
+
+# Permission System
+
+---
+
+## Unix File Permissions
+
+```
+raphael@debian-box:~$ ls -l
+total 10
+drwxr-xr-x 2 raphael raphael  3 Dec  7 02:35 Documents
+-rw-r--r-- 1 raphael raphael 12 Dec  7 02:22 another-textfile.txt
+-rw-r--r-- 1 root    raphael 19 Dec 10 23:02 test.sh
+ |_______|   |_____| |_____|
+     |          |       +------ Owner Group
+     |          +-------------- Owner User
+     +------------------------- File Permissions
+```
+
+**`r`**/**`4`** Read | **`w`**/**`2`** Write | **`x`**/**`1`** Execute
+
+---
+
+## Unix File Permissions
+
+```
+-rw-r--r-- 1 root    raphael 19 Dec 10 23:02 test.sh
+ |_||_||_|
+  |  |  +----- Other / Everyone
+  |  +-------- Owner Group (i.e. raphael)
+  +----------- Owner User (i.e. root)
+```
+
+---
+
+## Unix File Permission: Octal Representation
+```
+-rw-r--r-- 1 root    raphael 19 Dec 10 23:02 test.sh
+ |_||_||_|
+  |  |  +----- 4
+  |  +-------- 4 ==> 644
+  +----------- 6
+```
+
+---
+
+## Changing File Permissions
+```
+raphael@debian-box:~$ ls -l file.txt
+-rw-r--r-- 1 raphael raphael 0 Dec 13 17:07 file.txt
+
+raphael@debian-box:~$ chmod 600 file.txt
+```
+`600` => Owner: `rw`; Group: `-`; Everyone: `-`
+```
+raphael@debian-box:~$ ls -l file.txt
+-rw------- 1 raphael raphael 0 Dec 13 17:07 file.txt
+```
+
+_In this example, only the owner will have permission to read and write `file.txt`. Everyone else will not._
+
+---
+
+## Changing File Permissions
+```
+raphael@debian-box:~$ ls -l file.txt
+-rw-r--r-- 1 raphael raphael 0 Dec 13 17:07 file.txt
+
+raphael@debian-box:~$ chmod +x file.txt
+```
+`+x` => add "Execute" for all parties
+Alternative: `$ chmod 755 file.txt`
+```
+raphael@debian-box:~$ ls -l file.txt
+-rwxr-xr-x 1 raphael raphael 0 Dec 13 17:07 file.txt
+
+raphael@debian-box:~$ chmod -x file.txt
+```
+`-x` => remove "Execute" for all parties
+```
+raphael@debian-box:~$ ls -l file.txt
+-rw-r--r-- 1 raphael raphael 0 Dec 13 17:07 file.txt
+```
+
+---
+
+## Change File Ownership
+```
+root@debian-box:/home/raphael# ls -l file.txt
+-rw-r--r-- 1 raphael raphael 0 Dec 13 17:07 file.txt
+
+root@debian-box:/home/raphael# chown root file.txt
+```
+give ownership of `file.txt` to user `root`
+```
+root@debian-box:/home/raphael# ls -l file.txt
+-rw-r--r-- 1 root raphael 0 Dec 13 17:07 file.txt
+```
+
+---
+
+## Change File Ownership
+```
+root@debian-box:/home/raphael# ls -l file.txt
+-rw-r--r-- 1 raphael raphael 0 Dec 13 17:07 file.txt
+
+root@debian-box:/home/raphael# chown :operator file.txt
+```
+give ownership of `file.txt` to group `operator`
+```
+root@debian-box:/home/raphael# ls -l file.txt
+-rw-r--r-- 1 raphael operator 0 Dec 13 17:07 file.txt
+```
+
+---
+
+## Change File Ownership
+```
+root@debian-box:/home/raphael# ls -l file.txt
+-rw-r--r-- 1 raphael raphael 0 Dec 13 17:07 file.txt
+
+root@debian-box:/home/raphael# chown root:operator file.txt
+```
+give ownership of `file.txt` to user `root` and group `operator`
+```
+root@debian-box:/home/raphael# ls -l file.txt
+-rw-r--r-- 1 root operator 0 Dec 13 17:07 file.txt
+```
+
+---
+
+## Elevation
+Global actions usually require `root` privileges to execute
+
+Users can elevate a command using `sudo`
+
+---
+
+<!-- _class: invert -->
+
+# Installing programs: **Package Managers**
+
+---
+
+## What are _Package Managers_?
+- install and maintain _packages_
+
+## What are _Packages_?
+- archive that contains:
+    - program
+    - library
+    - documentation
+    - source code
+
+---
+
+## Features of _Package Managers_
+- install, update and remove packages
+- maintain dependencies + versions
+
+**Best Practice**:
+- install programs with your distros package manager, if possible
+
+**Why?**
+- easier maintenance
+
+---
+
+## Example: _Debian / Ubuntu_
+
+```
+raphael@debian-box:~$ sudo apt install tmux
+
+[sudo] password for raphael:
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  libevent-2.0-5 libutempter0
+The following NEW packages will be installed:
+  libevent-2.0-5 libutempter0 tmux
+0 upgraded, 3 newly installed, 0 to remove and 37 not upgraded.
+Need to get 425 kB of archives.
+After this operation, 1,026 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://deb.debian.org/debian stretch/main amd64 libevent-2.0-5 amd64 2.0.21-stable-3 [152 kB]
+Get:2 http://deb.debian.org/debian stretch/main amd64 libutempter0 amd64 1.1.6-3 [7,812 B]
+Get:3 http://deb.debian.org/debian stretch/main amd64 tmux amd64 2.3-4 [265 kB]
+Fetched 425 kB in 0s (599 kB/s)
+Selecting previously unselected package libevent-2.0-5:amd64.
+(Reading database ... 10148 files and directories currently installed.)
+Preparing to unpack .../libevent-2.0-5_2.0.21-stable-3_amd64.deb ...
+Unpacking libevent-2.0-5:amd64 (2.0.21-stable-3) ...
+Selecting previously unselected package libutempter0:amd64.
+Preparing to unpack .../libutempter0_1.1.6-3_amd64.deb ...
+Unpacking libutempter0:amd64 (1.1.6-3) ...
+Selecting previously unselected package tmux.
+Preparing to unpack .../archives/tmux_2.3-4_amd64.deb ...
+Unpacking tmux (2.3-4) ...
+Setting up libutempter0:amd64 (1.1.6-3) ...
+Processing triggers for libc-bin (2.24-11+deb9u3) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up libevent-2.0-5:amd64 (2.0.21-stable-3) ...
+Setting up tmux (2.3-4) ...
+Processing triggers for libc-bin (2.24-11+deb9u3) ...
+```
