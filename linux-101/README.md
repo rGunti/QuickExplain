@@ -479,3 +479,144 @@ Setting up libevent-2.0-5:amd64 (2.0.21-stable-3) ...
 Setting up tmux (2.3-4) ...
 Processing triggers for libc-bin (2.24-11+deb9u3) ...
 ```
+
+---
+
+<!-- _class: invert -->
+
+# _Short Break_
+
+---
+
+<!-- _class: invert -->
+
+# Now let's do some wizardry
+
+---
+
+## Command Streams
+`stdin` (`0`) Standard Input
+This strean is used for inputing data from other programs
+
+`stdout` (`1`) Standard Output
+This strean contains output from programs
+
+`stderr` (`2`) Standard Error
+This strean is intended to be used for outputing errors of programs
+
+---
+
+## `cat`
+Print a (text) file to `stdout`
+
+```
+raphael@debian-box:~$ cat /var/log/syslog
+Dec 13 00:00:20 debian-box rsyslogd:  [origin software="rsyslogd" swVersion="8.1901.0" x-pid="64" x-info="https://www.rsyslog.com"] rsyslogd was HUPed
+Dec 13 00:00:24 debian-box systemd[1]: man-db.service: Succeeded.
+Dec 13 00:00:24 debian-box systemd[1]: Started Daily man-db regeneration.
+Dec 13 00:08:37 debian-box systemd[1]: Starting Daily apt download activities...
+Dec 13 00:08:42 debian-box systemd[1]: apt-daily.service: Succeeded.
+Dec 13 00:08:42 debian-box systemd[1]: Started Daily apt download activities.
+Dec 13 00:48:01 debian-box CRON[2736]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 01:48:02 debian-box CRON[2740]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 02:28:37 debian-box systemd[1]: Starting Cleanup of Temporary Directories...
+Dec 13 02:28:38 debian-box systemd[1]: systemd-tmpfiles-clean.service: Succeeded.
+Dec 13 02:28:38 debian-box systemd[1]: Started Cleanup of Temporary Directories.
+Dec 13 02:48:01 debian-box CRON[2744]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 03:48:01 debian-box CRON[2748]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 04:48:01 debian-box CRON[2751]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 05:31:06 debian-box dhclient[86]: DHCPREQUEST for 192.168.3.27 on eth0 to 192.168.1.1 port 67
+Dec 13 05:31:06 debian-box dhclient[86]: DHCPACK of 192.168.3.27 from 192.168.1.1
+Dec 13 05:31:06 debian-box dhclient[86]: bound to 192.168.3.27 -- renewal in 33604 seconds.
+[...]
+```
+
+---
+
+## `head` / `tail`
+Print a defined amount of a (text) file to `stdout` from start / end of file
+
+_Example: Print first/last 3 lines of file `/var/log/syslog`_
+```
+raphael@debian-box:~$ head -n3 /var/log/syslog
+Dec 13 00:00:20 debian-box rsyslogd:  [origin software="rsyslogd" swVersion="8.1901.0" x-pid="64" x-info="https://www.rsyslog.com"] rsyslogd was HUPed
+Dec 13 00:00:24 debian-box systemd[1]: man-db.service: Succeeded.
+Dec 13 00:00:24 debian-box systemd[1]: Started Daily man-db regeneration.
+
+raphael@debian-box:~$ tail -n3 /var/log/syslog
+Dec 13 18:29:29 debian-box systemd[1]: session-125213.scope: Succeeded.
+Dec 13 18:29:35 debian-box systemd[1]: Started Session 125380 of user raphael.
+Dec 13 18:48:01 debian-box CRON[3351]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+```
+
+---
+
+## `grep`
+Print lines of a text file containing search text to `stdout`
+
+_Example: Search `raphael` in `/var/log/syslog`_
+```
+raphael@debian-box:~$ grep raphael /var/log/syslog
+Dec 13 16:12:50 debian-box systemd[1]: Started Session 125213 of user raphael.
+Dec 13 18:29:35 debian-box systemd[1]: Started Session 125380 of user raphael.
+```
+
+---
+
+## `|` (piping)
+With `|` you can transfer output from one command to the input to another command.
+
+_Example: Search for lines containing `CRON` in the output of the `tail` command_
+```
+raphael@debian-box:~$ tail /var/log/syslog | grep CRON
+Dec 13 17:48:01 debian-box CRON[3083]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 18:48:01 debian-box CRON[3351]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+```
+
+---
+
+## `>`
+With `>` you can store command output into a file. If the file exists, it will be replaced.
+
+```
+raphael@debian-box:~$ tail /var/log/syslog | grep CRON > output.txt
+raphael@debian-box:~$ cat output.txt
+Dec 13 17:48:01 debian-box CRON[3083]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 18:48:01 debian-box CRON[3351]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+```
+
+## `>>`
+`>>` is the same as `>` but it appends data to a file if it already exists.
+
+```
+raphael@debian-box:~$ tail /var/log/syslog | grep CRON >> output.txt
+raphael@debian-box:~$ cat output.txt
+Dec 13 17:48:01 debian-box CRON[3083]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 18:48:01 debian-box CRON[3351]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 17:48:01 debian-box CRON[3083]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 13 18:48:01 debian-box CRON[3351]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+```
+
+---
+
+## `<`
+With `<` you can pipe a file into `stdin` of a program.
+
+```
+raphael@debian-box:~$ tail -n1 < output.txt
+Dec 13 18:48:01 debian-box CRON[3351]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+```
+
+---
+
+## Redirect `stdout` and `stderr`
+
+_Example: Write `stderr` into `stdout`_
+`$ command 2>&1`
+
+_Example: Write `stderr` of `command` into `error.log`, `stdout` to `output.log`_
+`$ command 2> error.log 1> output.log`
+
+_Example: Get rid of `stderr` output_
+`$ command 2> /dev/null`
+
